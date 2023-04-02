@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./UserManage.scss";
-import { getAllUsers, createNewUserService } from "../../services/userService";
+import { getAllUsers, createNewUserService, deleteUserService } from "../../services/userService";
 import ModalUser from "./ModalUser";
+import { emitter } from "../../utils";
 class UserManage extends Component {
   constructor(props) {
     super(props);
@@ -26,13 +27,13 @@ class UserManage extends Component {
     }
   }
 
-  handleAddNewUser = () => {
+  handleAddNewUser = (user) => {
     this.setState({
       isOpenModalUser: true,
     })
   }
 
-  toggleUserModal =() => {
+  toggleUserModal = () => {
     this.setState({
       isOpenModalUser: !this.state.isOpenModalUser,
     })
@@ -42,15 +43,17 @@ class UserManage extends Component {
   createNewUser = async (data) => {
     try {
       let response = await createNewUserService(data);
-      if(response && response.errCode !== 0){
+      if (response && response.errCode !== 0) {
         alert(response.errMessage)
       } else {
         await this.getAllUsersFromReact();
         this.setState({
           isOpenModalUser: false
         })
+
+        emitter.emit('EVENT_CLEAR_MODAL_DATA')
       }
-    }catch(e){
+    } catch (e) {
       console.log(e);
     }
   }
@@ -61,6 +64,21 @@ class UserManage extends Component {
    * 3.Render (re -render)
    *
    */
+
+  //Delete User
+  handleDeleteUser = async (user) => {
+    try {
+      let res = await deleteUserService(user.id);
+      if (res && res.errCode == 0) {
+        await this.getAllUsersFromReact();
+      } else {
+        alert(res.errMessage)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   render() {
     // console.log("check render", this.state);
     let arrUsers = this.state.arrUsers;
@@ -69,42 +87,44 @@ class UserManage extends Component {
     return (
       <div className="user-container">
         <ModalUser
-          isOpen = { this.state.isOpenModalUser}
-          toggleFromParent = { this.toggleUserModal}
-          createNewUser ={this.createNewUser}
-        
+          isOpen={this.state.isOpenModalUser}
+          toggleFromParent={this.toggleUserModal}
+          createNewUser={this.createNewUser}
+
         />
         <div className="title text-center">Manage users with SCP999</div>
         <div className="mx-1">
           <button className="btn btn-primary px-3"
-          onClick ={() => this.handleAddNewUser()}
+            onClick={() => this.handleAddNewUser()}
           ><i className="fas fa-plus"></i> Add New User</button>
         </div>
         <div className="users-table mt-3 mx-1">
           <table id="customers">
             <tbody>
-            <tr>
-              <th>Email</th>
-              <th>First name</th>
-              <th>Last name</th>
-              <th>Address</th>
-              <th>Action</th>
-            </tr>
-            { arrUsers && arrUsers.map((item,index) =>{
-                return(
-                    <tr key = {index}>
+              <tr>
+                <th>Email</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Address</th>
+                <th>Action</th>
+              </tr>
+              {arrUsers && arrUsers.map((item, index) => {
+                return (
+                  <tr key={index}>
                     <td>{item.email}</td>
                     <td>{item.firstName}</td>
                     <td>{item.lastName}</td>
                     <td>{item.address}</td>
                     <td>
-                        <button className='btn-edit'><i className='fas fa fa-pencil-alt'></i></button>
-                        <button className='btn-delete'><i className='fas fa fa-trash'></i></button>
+                      <button className='btn-edit'><i className='fas fa fa-pencil-alt'></i></button>
+                      <button className='btn-delete' onClick={() => {
+                        this.handleDeleteUser(item)
+                      }}><i className='fas fa fa-trash'></i></button>
                     </td>
                   </tr>
                 )
-            })
-            }
+              })
+              }
             </tbody>
           </table>
         </div>
