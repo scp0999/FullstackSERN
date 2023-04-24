@@ -76,7 +76,7 @@ class HomeHeader extends Component {
                     : "language-vi"
                 }
               >
-                <span onClick={() => this.changeLanguage("LANGUAGES.VI")}>
+                <span onClick={() => this.changeLanguage(LANGUAGES.VI)}>
                   VN
                 </span>
               </div>
@@ -84,10 +84,10 @@ class HomeHeader extends Component {
                 className={
                   language === LANGUAGES.EN
                     ? "language-en active"
-                    : "language-en "
+                    : "language-en"
                 }
               >
-                <span onClick={() => this.changeLanguage("LANGUAGES.EN")}>
+                <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>
                   EN
                 </span>
               </div>
@@ -171,7 +171,7 @@ class HomeHeader extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
-    lang: state.app.language,
+    language: state.app.language,
   };
 };
 

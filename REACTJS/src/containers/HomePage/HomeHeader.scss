@@ -69,7 +69,7 @@
             color: orange;
           }
         }
-        &.hover {
+        &:hover {
           opacity: 0.8;
         }
       }
@@ -80,9 +80,11 @@
         opacity: 0.2;
         &.active {
           opacity: 1;
-          color: blue;
+          span {
+            color: blue;
+          }
         }
-        &.hover {
+        &:hover {
           opacity: 0.8;
         }
       }
@@ -150,6 +152,7 @@
 
   .content-down {
     height: 35%;
+    padding-bottom: 10px;
     display: flex;
     align-items: flex-end;
     justify-content: center;
