@@ -50,7 +50,7 @@ class HomeHeader extends Component {
                 </div>
                 <div className="subs-title">
                   <FormattedMessage id="home-header.select-doctor" />
-                  Chọn bác sĩ giỏi
+                 
                 </div>
               </div>
               <div className="child-content">
