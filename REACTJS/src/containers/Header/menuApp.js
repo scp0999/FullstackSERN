@@ -12,7 +12,7 @@ export const adminMenu = [
         link: "/system/user-redux",
       },
       {
-        name: "menu.admin.manager-doctor",
+        name: "menu.admin.manage-doctor",
         link: "/system/user-doctor",
         // subMenus: [
         //   {
@@ -26,7 +26,7 @@ export const adminMenu = [
         // ],
       },
       {
-        name: "menu.admin.manager-admin",
+        name: "menu.admin.manage-admin",
         link: "/system/user-admin",
       },
     ],
@@ -57,7 +57,7 @@ export const adminMenu = [
     menus: [
       {
         name: "menu.admin.manage-handbook",
-        link: "/system/manage-clinhandbookic",
+        link: "/system/manage-handbook",
       },
     ],
   },
