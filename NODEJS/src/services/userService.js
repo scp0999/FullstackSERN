@@ -1,20 +1,19 @@
 import bcrypt from "bcryptjs";
 import db from "../models/index";
-import { raw } from 'body-parser';
-const salt =bcrypt.genSaltSync(10);
+import { raw } from "body-parser";
+const salt = bcrypt.genSaltSync(10);
 
-let hashUserPassword = async (password) =>{
-   return new Promise(async (resolve, reject) =>{
-     try {
-       let hashPassword = await bcrypt.hashSync(password, salt);
+let hashUserPassword = async (password) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let hashPassword = await bcrypt.hashSync(password, salt);
 
-       resolve(hashPassword);
-
-     }catch(e){
-       reject(e);
-     }
-   })
- }
+      resolve(hashPassword);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 let handleUserLogin = (email, password) => {
   return new Promise(async (resolve, reject) => {
@@ -25,7 +24,7 @@ let handleUserLogin = (email, password) => {
       if (isExist) {
         //user already exists
         let user = await db.User.findOne({
-          attributes: ["email", "roleId", "password"],
+          attributes: ["email", "roleId", "password", "firstName", "lastName"],
           where: { email: email },
           raw: true,
         });
@@ -105,60 +104,59 @@ let getAllUsers = (userId) => {
 
 let createNewUser = async (data) => {
   return new Promise(async (resolve, reject) => {
-  try {
-  // check email is exist
+    try {
+      // check email is exist
       let check = await checkUserEmail(data.email);
-      if(check === true){
-       resolve({ 
-         errCode: 1,
-         errMessage: 'Your Email is already in used, Plz try another one'
-        })
-      }else{
-      let hashPasswordFromBcrypt = await hashUserPassword(data.password);
-       await db.User.create({
+      if (check === true) {
+        resolve({
+          errCode: 1,
+          errMessage: "Your Email is already in used, Plz try another one",
+        });
+      } else {
+        let hashPasswordFromBcrypt = await hashUserPassword(data.password);
+        await db.User.create({
           email: data.email,
-           password: hashPasswordFromBcrypt,
-           firstName: data.firstName,
-           lastName: data.lastName,
-           address: data.address,
-           phonenumber: data.phonenumber,
-           gender: data.gender === '1' ? true : false,
-           roleId: data.roleId
-       })
-       resolve({
-         errCode: 0,
-         message: 'OK'
-        })
+          password: hashPasswordFromBcrypt,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          address: data.address,
+          phonenumber: data.phonenumber,
+          gender: data.gender === "1" ? true : false,
+          roleId: data.roleId,
+        });
+        resolve({
+          errCode: 0,
+          message: "OK",
+        });
       }
-     }catch(e){
-       reject(e);
-     }
-   })
-}
-
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 let deleteUser = (userId) => {
   return new Promise(async (resolve, reject) => {
     let foundUser = await db.User.findOne({
       where: { id: userId },
-    })
+    });
     if (!foundUser) {
       resolve({
         errCode: 2,
         errMessage: `The User isn't exist`,
-      })
+      });
     }
 
     await db.User.destroy({
       where: { id: userId },
-    })
+    });
 
     resolve({
       errCode: 0,
       message: `The user is deleted`,
-    })
-  })
-}
+    });
+  });
+};
 
 let updateUser = (data) => {
   return new Promise(async (resolve, reject) => {
@@ -202,23 +200,22 @@ let getAllCodeService = (typeInput) => {
       if (!typeInput) {
         resolve({
           errCode: 1,
-          errMessage: 'Missing required parameters'
-        })
+          errMessage: "Missing required parameters",
+        });
       } else {
         let res = {};
         let allcode = await db.Allcode.findAll({
-          where: { type : typeInput}
+          where: { type: typeInput },
         });
         res.errCode = 0;
         res.data = allcode;
         resolve(res);
       }
-
     } catch (e) {
       reject(e);
     }
-  })
-}
+  });
+};
 
 module.exports = {
   createNewUser: createNewUser,
@@ -227,4 +224,4 @@ module.exports = {
   deleteUser: deleteUser,
   updateUser: updateUser,
   getAllCodeService: getAllCodeService,
-}
+};
