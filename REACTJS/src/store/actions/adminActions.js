@@ -4,6 +4,7 @@ import {
   createNewUserService,
   getAllUsers,
   deleteUserService,
+  editUserService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -171,7 +172,7 @@ export const deleteUserFailed = () => ({
 export const editAUser = (data) => {
   return async (dispatch, getState) => {
     try {
-      let res = await deleteUserService(data);
+      let res = await editUserService(data);
       if (res && res.errCode === 0) {
         toast.success("Update a user succeed");
         dispatch(editUserSuccess());
