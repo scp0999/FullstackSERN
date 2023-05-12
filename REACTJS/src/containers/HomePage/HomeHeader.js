@@ -102,7 +102,7 @@ class HomeHeader extends Component {
               <FormattedMessage id="banner.title2" />
             </div>
             <div className="search">
-              <i class="fas fa-search"></i>
+              <i className="fas fa-search"></i>
               <input
                 type="text"
                 placeholder="Tìm chuyên khoa khám bệnh"
