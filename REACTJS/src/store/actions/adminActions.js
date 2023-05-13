@@ -1,3 +1,5 @@
+/** @format */
+
 import actionTypes from "./actionTypes";
 import {
   getAllCodeService,
@@ -6,6 +8,8 @@ import {
   deleteUserService,
   editUserService,
   getTopDoctorHomeService,
+  getAllDoctors,
+  saveDetailDoctorService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -201,24 +205,70 @@ export const editUserFailed = () => ({
 export const fetchTopDoctor = () => {
   return async (dispatch, getState) => {
     try {
-      let res = await getTopDoctorHomeService('');
-      if (res && res.errCode === 0){
+      let res = await getTopDoctorHomeService("");
+      if (res && res.errCode === 0) {
         dispatch({
           type: actionTypes.FETCH_TOP_DOCTORS_SUCCESS,
-          dataDoctors: res.data
-        })
-      }else {
+          dataDoctors: res.data,
+        });
+      } else {
         dispatch({
           type: actionTypes.FETCH_TOP_DOCTORS_FAILED,
-        })
+        });
       }
     } catch (e) {
-      console.log('FETCH_TOP_DOCTORS_FAILED',e)
+      console.log("FETCH_TOP_DOCTORS_FAILED", e);
       dispatch({
         type: actionTypes.FETCH_TOP_DOCTORS_FAILED,
-      })
+      });
     }
   };
-}
-// let res1 = await getTopDoctorHomeService(3);
-// console.log('check docotr',res1)
+};
+
+export const fetchAllDoctors = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllDoctors();
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_ALL_DOCTORS_SUCCESS,
+          dataDr: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_ALL_DOCTORS_FAILED,
+        });
+      }
+    } catch (e) {
+      console.log("FETCH_ALL_DOCTORS_FAILED", e);
+      dispatch({
+        type: actionTypes.FETCH_ALL_DOCTORS_FAILED,
+      });
+    }
+  };
+};
+
+export const saveDetailDoctor = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await saveDetailDoctorService(data);
+      if (res && res.errCode === 0) {
+        toast.success("Save Info Doctor Success");
+
+        dispatch({
+          type: actionTypes.SAVE_DETAIl_DOCTORS_SUCCESS,
+        });
+      } else {
+        toast.error("Save Info Doctor Failed");
+
+        dispatch({
+          type: actionTypes.SAVE_DETAIL_DOCTORS_FAILED,
+        });
+      }
+    } catch (e) {
+      dispatch({
+        type: actionTypes.SAVE_DETAIL_DOCTORS_FAILED,
+      });
+    }
+  };
+};

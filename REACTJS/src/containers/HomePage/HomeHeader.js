@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./HomeHeader.scss";
@@ -12,6 +14,10 @@ class HomeHeader extends Component {
   };
   render() {
     let language = this.props.language;
+    let placeHolder =
+      language === LANGUAGES.VI
+        ? "Tìm chuyên khoa khám bệnh"
+        : "Find a medical specialist";
     return (
       <React.Fragment>
         <div className="home-header-container">
@@ -103,10 +109,7 @@ class HomeHeader extends Component {
             </div>
             <div className="search">
               <i className="fas fa-search"></i>
-              <input
-                type="text"
-                placeholder="Tìm chuyên khoa khám bệnh"
-              ></input>
+              <input type="text" placeholder={placeHolder}></input>
             </div>
           </div>
           <div className="content-down">

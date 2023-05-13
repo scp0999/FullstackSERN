@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./Specialty.scss";
@@ -30,13 +32,16 @@ function SamplePrevArrow(props) {
 
 class Specialty extends Component {
   render() {
-    
     return (
       <div className="section-share section-specialty">
         <div className="section-container">
           <div className="section-header">
-            <span className="title-section">Chuyên khoa phổ biến</span>
-            <button className="btn-section">Xem thêm</button>
+            <span className="title-section">
+              <FormattedMessage id="homepage.specialty" />
+            </span>
+            <button className="btn-section">
+              <FormattedMessage id="homepage.more-infor" />
+            </button>
           </div>
           <div className="section-body">
             <Slider {...this.props.settings}>
@@ -46,23 +51,23 @@ class Specialty extends Component {
               </div>
               <div className="section-customize">
                 <div className="bg-image section-specialty" />
-                <div>Cơ xương khớp</div>
+                <div>Thần kinh</div>
               </div>
               <div className="section-customize">
                 <div className="bg-image section-specialty" />
-                <div>Cơ xương khớp</div>
+                <div>Tiêu hoá</div>
               </div>
               <div className="section-customize">
                 <div className="bg-image section-specialty" />
-                <div>Cơ xương khớp</div>
+                <div>Tim mạch</div>
               </div>
               <div className="section-customize">
                 <div className="bg-image section-specialty" />
-                <div>Cơ xương khớp</div>
+                <div>Tai mũi họng</div>
               </div>
               <div className="section-customize">
                 <div className="bg-image section-specialty" />
-                <div>Cơ xương khớp</div>
+                <div>Da liễu</div>
               </div>
             </Slider>
           </div>

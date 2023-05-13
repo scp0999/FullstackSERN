@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
@@ -29,13 +31,15 @@ function SamplePrevArrow(props) {
 
 class HandBook extends Component {
   render() {
-    
     return (
       <div className="section-share section-handbook">
         <div className="section-container">
           <div className="section-header">
-            <span className="title-section">Cẩm nang</span>
-            <button className="btn-section">Xem thêm</button>
+            <FormattedMessage id="homepage.handbook" />
+            <span className="title-section"></span>
+            <button className="btn-section">
+              <FormattedMessage id="homepage.more-infor" />
+            </button>
           </div>
           <div className="section-body">
             <Slider {...this.props.settings}>
