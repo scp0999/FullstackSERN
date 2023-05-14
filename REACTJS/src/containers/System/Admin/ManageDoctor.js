@@ -8,6 +8,7 @@ import "./ManageDoctor.scss";
 import MarkDownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
+import { FormattedMessage } from "react-intl";
 import Select from "react-select";
 import { getDetailInforDoctor } from "../../../services/userService";
 import { CRUD_ACTIONS } from "../../../utils";
