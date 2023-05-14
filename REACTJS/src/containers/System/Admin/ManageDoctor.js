@@ -11,7 +11,7 @@ import "react-markdown-editor-lite/lib/index.css";
 import { FormattedMessage } from "react-intl";
 import Select from "react-select";
 import { getDetailInforDoctor } from "../../../services/userService";
-import { CRUD_ACTIONS } from "../../../utils";
+import { CRUD_ACTIONS, LANGUAGES } from "../../../utils";
 
 const mdParser = new MarkDownIt(/* Markdown-it options */);
 
@@ -44,11 +44,14 @@ class ManageDoctor extends Component {
 
   buildDataInputSelect = (inputData) => {
     let result = [];
+    let { language } = this.props;
     if (inputData && inputData.length > 0) {
       inputData.map((item, index) => {
         console.log("item", item);
         let object = {};
-        object.label = `${item.lastName} ${item.firstName}`;
+        let labelVi =  `${item.lastName} ${item.firstName}`;
+        let labelEn =  `${item.firstName} ${item.lastName}`;
+        object.label = language === LANGUAGES.VI ? labelVi : labelEn;
         object.value = item.id;
         result.push(object);
       });
@@ -59,7 +62,12 @@ class ManageDoctor extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.allDoctors !== this.props.allDoctors) {
       let dataSelect = this.buildDataInputSelect(this.props.allDoctors);
-
+      this.setState({
+        listDoctors: dataSelect,
+      });
+    }
+    if (prevProps.language !== this.props.language) {
+      let dataSelect = this.buildDataInputSelect(this.props.language);
       this.setState({
         listDoctors: dataSelect,
       });
@@ -172,7 +180,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllDoctors: (id) => dispatch(actions.fetchAllDoctors()),
+    fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
     saveDetailDoctor: (data) => dispatch(actions.saveDetailDoctor(data)),
   };
 };

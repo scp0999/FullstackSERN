@@ -61,5 +61,11 @@
         "specialty": "Chuyên khoa phổ biến",
         "facilities": "Cơ sở y tế nổi bật",
         "about": "Truyền thông nói về Booking Care"
+    },
+    "manage-schedule": {
+        "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
+        "choose-doctor": "Chọn bác sĩ",
+        "choose-date": "Chọn ngày",
+        "save": "Lưu thông tin"
     }
 }
