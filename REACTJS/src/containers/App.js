@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
@@ -5,6 +7,7 @@ import { ConnectedRouter as Router } from "connected-react-router";
 import { history } from "../redux";
 import { ToastContainer } from "react-toastify";
 import HomePage from "./HomePage/HomePage.js";
+import DetailDoctor from "./Patient/Doctor/DetailDoctor.js";
 
 import {
   userIsAuthenticated,
@@ -58,6 +61,7 @@ class App extends Component {
                     component={userIsAuthenticated(System)}
                   />
                   <Route path={path.HOMEPAGE} component={HomePage} />
+                  <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
                 </Switch>
               </CustomScrollbars>
             </span>
@@ -87,7 +91,6 @@ class App extends Component {
               pauseOnHover
               theme="light"
             />
-
           </div>
         </Router>
       </Fragment>
