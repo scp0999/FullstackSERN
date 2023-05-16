@@ -3,10 +3,10 @@
 import db from "../models/index";
 import { Buffer } from "buffer";
 require('dotenv').config();
-import _ from 'lodash';
+import _, { difference } from 'lodash';
 import schedule from "../models/schedule";
 
-const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULES;
+const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 
 let getTopDoctorHome = (limitInput) => {
   return new Promise(async (resolve, reject) => {
@@ -164,7 +164,7 @@ let bulkCreateSchedule = (data) =>{
       if(!data.arrSchedule || !data.doctorId || !data.formatedDate){
         resolve({
           errCode: 1,
-          errMessage: ' Missing required param'
+          errMessage: ' Missing required param !'
         })
       }else{
         let schedule = data.arrSchedule;
@@ -185,22 +185,25 @@ let bulkCreateSchedule = (data) =>{
       );
       //convert date
       if (existing && existing.length>0){
-        existing =existing.map(item =>{
+        existing = existing.map(item =>{
           item.date = new Date(item.date).getTime();
           return item;
         })
       }
 
       // compare different
-      let toCreate = _.differenceWith(schedule,existing,(a,b) =>{
+      let toCreate = _.differenceWith(schedule, existing, (a,b) =>{
         return a.timeType === b.timeType && a.date === b.date;
       });
 
-      // create data
+      //create data
       if(toCreate && toCreate.length > 0){
         await db.Schedule.bulkCreate(toCreate);
       }
 
+      console.log('cehck difference ========================', toCreate)
+      console.log('check data existing ====================', existing)
+      
       resolve({
         errCode:0,
         errMessage: 'OK'
