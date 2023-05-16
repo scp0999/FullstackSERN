@@ -25,7 +25,7 @@ async componentDidMount() {
     this.setArrDays(language);
 }
 
-setArrDays = (language) =>{
+setArrDays = async (language) =>{
     let allDays =[]
     for(let i =0 ; i<7; i++){
         let object ={};
@@ -37,6 +37,9 @@ setArrDays = (language) =>{
         object.value = moment(new Date()).add(i, 'days').startOf('day').valueOf();
         allDays.push(object);
     }
+    // let res = await getScheduleDoctorByDate(12, 1684256400000);
+    // console.log('check res schedule from react from console.log: ', res)
+
     this.setState({
         allDays: allDays,
     })
