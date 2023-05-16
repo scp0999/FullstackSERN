@@ -31,35 +31,37 @@ class DoctorSchedule extends Component {
 
   getArrDays = (language) => {
     let allDays = [];
+    let currentDate = moment(); // Get the current date
+
     for (let i = 0; i < 7; i++) {
       let object = {};
+
       if (language === LANGUAGES.VI) {
         if (i === 0) {
-          let ddMM = moment(new Date()).format("DD/MM");
+          let ddMM = currentDate.format("DD/MM");
           let today = `Hôm nay - ${ddMM}`;
           object.label = today;
         } else {
-          let labelVi = moment(new Date()).format("dddd - DD/MM");
+          let labelVi = currentDate.add(1, "day").format("dddd - DD/MM");
           object.label = this.capitalizeFirstLetter(labelVi);
         }
-        // let labelVi = moment(new Date()).add(i, "days").format("dddd - DD/MM");
-        // object.label = this.capitalizeFirstLetter(labelVi);
       } else {
         if (i === 0) {
-          let ddMM = moment(new Date()).format("DD/MM");
+          let ddMM = currentDate.format("DD/MM");
           let today = `Today - ${ddMM}`;
           object.label = today;
         } else {
-          object.label = moment(new Date())
-            .add(i, "days")
-            .format("ddd - DD/MM");
+          object.label = currentDate.add(1, "day").format("ddd - DD/MM");
         }
       }
-      object.value = moment(new Date()).add(i, "days").startOf("day").valueOf();
+
+      object.value = currentDate.startOf("day").valueOf();
       allDays.push(object);
     }
+
     return allDays;
   };
+
   async componentDidUpdate(prevProps, prevState, snapshot) {
     let allDays = this.getArrDays(this.props.language);
     this.getArrDays({
