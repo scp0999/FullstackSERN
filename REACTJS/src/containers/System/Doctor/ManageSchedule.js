@@ -75,7 +75,7 @@ class ManageSchedule extends Component {
         let labelEn = `${item.firstName} ${item.lastName}`;
         object.label = language === LANGUAGES.VI ? labelVi : labelEn;
         object.value = item.id;
-        result.push(object);
+        return result.push(object);
       });
     }
     return result;
@@ -132,7 +132,7 @@ class ManageSchedule extends Component {
           object.doctorId = selectedDoctor.value; //value: label
           object.date = formatedDate;
           object.timeType = schedule.keyMap;
-          result.push(object);
+          return result.push(object);
         });
       } else {
         toast.error("Invalid selected time!");
