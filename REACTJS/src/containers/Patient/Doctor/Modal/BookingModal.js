@@ -87,12 +87,11 @@ class BookingModal extends Component {
   }
 
   handleChangeSelect = (selectOption) => {
-    this.setState({ selectOption: selectOption});
+    this.setState({ selectedGender: selectOption });
   }
 
   handleConfirmBooking = async () =>{
-    // cvalidate input
-    // !data.email || !data.doctorId || !data.timeType || !data.date
+    // validate input
     let date = new Date(this.state.birthday).getTime();
     let res = await postPatientBookAppointment({
         fullName: this.state.fullName,
@@ -100,17 +99,20 @@ class BookingModal extends Component {
         email: this.state.email,
         address: this.state.address,
         reason: this.state.reason,
-        date : date,
+        date: date,
         selectedGender: this.state.selectedGender.value,
-        doctorId:this.state.doctorId,
+        doctorId: this.state.doctorId,
         timeType: this.state.timeType,
     })
-    if (res && res.statusCode ===0){
-        toast.success('Booking a new appointment suceed!')
+
+    if (res && res.errCode === 0) {
+        toast.success('booking a new appointment succeed!')
         this.props.closeBookingClose();
-    }else {
-        toast.error('Booking a new appointment failed!')
+    } else {
+        toast.error('booking a new appointment error!')
     }
+
+    console.log('Booking a new appointment', this.state);
   }
 
   render() {
@@ -201,18 +203,19 @@ class BookingModal extends Component {
                         <label>
                         <FormattedMessage id="patient.booking-modal.birthday"/>
                         </label>
-                        <input className="form-control"
-                            value={this.state.birthday}
-                            onChange={(event) => this.handelOnChangeInput(event,'birthday')}
+                        <DatePicker 
+                            onChange={this.handelOnDatePicker}
+                            className="form-control"
+                            value={this.state.birthday}   
                         />
                     </div>
                     <div className="col-6 form-group" >
                     <label>
                         <FormattedMessage id="patient.booking-modal.gender"/>
                         </label>
-                        <select className="form-control"
+                        <Select
                             value={this.state.selectedGender}
-                            onChange={this.handelOnChangeSelect}
+                            onChange={this.handleChangeSelect}
                             options ={ this.state.genders}
                         />
                     </div>
