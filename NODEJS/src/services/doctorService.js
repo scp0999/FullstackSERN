@@ -72,7 +72,7 @@ let saveDetailInforDoctor = (inputData) => {
         !inputData.action ||
         !inputData.selectedPrice ||
         !inputData.selectedPayment ||
-        !inputData.selectedProvince ||
+        !inputData.selectProvince ||
         !inputData.nameClinic ||
         !inputData.addressClinic ||
         !inputData.note
@@ -113,7 +113,7 @@ let saveDetailInforDoctor = (inputData) => {
         if (doctorInfor) {
           doctorInfor.doctorId = inputData.doctorId;
           doctorInfor.priceId = inputData.selectedPrice;
-          doctorInfor.provinceId = inputData.selectedProvince;
+          doctorInfor.provinceId = inputData.selectProvince;
           doctorInfor.paymentId = inputData.selectedPayment;
           doctorInfor.addressClinic = inputData.addressClinic;
           doctorInfor.nameClinic = inputData.nameClinic;
@@ -123,7 +123,7 @@ let saveDetailInforDoctor = (inputData) => {
           await db.Doctor_Infor.create({
             doctorId: inputData.doctorId,
             priceId: inputData.selectedPrice,
-            provinceId: inputData.selectedProvince,
+            provinceId: inputData.selectProvince,
             paymentId: inputData.selectedPayment,
             addressClinic: inputData.addressClinic,
             nameClinic: inputData.nameClinic,
@@ -229,7 +229,6 @@ let bulkCreateSchedule = (data) => {
             return item;
           });
         }
-
         //get all existing data
         let existing = await db.Schedule.findAll({
           where: { doctorId: data.doctorId, date: data.formatedDate },
