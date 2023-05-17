@@ -310,7 +310,7 @@ class ManageDoctor extends Component {
               placeholder={
                 <FormattedMessage id="admin.manage-doctor.province" />
               }
-              name="selectedPayment"
+              name="selectProvince"
             />
           </div>
           <div className="col-4 form-group">
