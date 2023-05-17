@@ -14,39 +14,39 @@ import Select from 'react-select';
 import { postPatientBookAppointment } from "../../../../services/userService";
 import {toast} from "react-toastify";
 class BookingModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        fullName: '',
-        phoneNumber: '',
-        email: '',
-        address: '',
-        reason: '',
-        birthday: '',
-        selectedGender: '',
-        doctorId: '',
-        genders: '',
-        timeType: '',
-    };
-  }
-
-  async componentDidMount() {
-    this.props.getGenders();
-  }
-
-  buildDataGender = (data) => {
-    let result = [];
-    let language = this.props.language;
-    if(data && data.length >0){
-        data.map(item => {
-            let object ={};
-            object.label = language === LANGUAGES.VI ? item.valueVi : item.valueEn;
-            object.value = item.keyMap;
-            result.push(object)
-        })  
+    constructor(props) {
+        super(props);
+        this.state = {
+            fullName: '',
+            phoneNumber: '',
+            email: '',
+            address: '',
+            reason: '',
+            birthday: '',
+            selectedGender: '',
+            doctorId: '',
+            genders: '',
+            timeType: '',
+        };
     }
-    return result;
-  }
+
+    async componentDidMount() {
+        this.props.getGenders();
+    }
+
+    buildDataGender = (data) => {
+        let result = [];
+        let language = this.props.language;
+        if(data && data.length >0){
+            data.map(item => {
+                let object ={};
+                object.label = language === LANGUAGES.VI ? item.valueVi : item.valueEn;
+                object.value = item.keyMap;
+                result.push(object)
+            })  
+        }
+        return result;
+    }
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
