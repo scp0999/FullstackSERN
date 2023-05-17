@@ -1,25 +1,34 @@
-import patientService from '../services/patientServices';
+/** @format */
 
+import patientService from "../services/patientServices";
 
-let postBookAppointment = async(req, res) =>{
-
-    try{
+let postBookAppointment = async (req, res) => {
+  try {
     let infor = await patientService.postBookAppointment(req.body);
-    return res.status(200).json(
-        infor
-    );
+    return res.status(200).json(infor);
+  } catch (e) {
+    console.log(e);
+    return res.status(200).json({
+      errCode: -1,
+      errMessage: e,
+    });
+  }
+};
 
-    } catch(e){
-        console.log(e);
-        return res.status(200).json({
-            errCode: -1,
-            errMessage: 'Error from the server.'
-        })
-    }
+let postVerifyBookAppointment = async (req, res) => {
+  try {
+    let infor = await patientService.postVerifyBookAppointment(req.body);
+    return res.status(200).json(infor);
+  } catch (e) {
+    console.log(e);
+    return res.status(200).json({
+      errCode: -1,
+      errMessage: "Error from the server",
+    });
+  }
+};
 
-}
-
-
-module.exports={
-    postBookAppointment: postBookAppointment,
-}
+module.exports = {
+  postBookAppointment: postBookAppointment,
+  postVerifyBookAppointment: postVerifyBookAppointment,
+};
