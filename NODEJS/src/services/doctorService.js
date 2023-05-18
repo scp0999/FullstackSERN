@@ -63,35 +63,45 @@ let getAllDoctors = () => {
 };
 
 let checkRequiredFields = (inputData) => {
-  let arrFields = ['doctorId', 'contentHTML', 'contentMarkdown', 
-              'action', 'selectedPrice', 'selectedPayment',
-              'selectedProvince', 'nameClinic', 'note', 'specialtyId']
+  let arrFields = [
+    "doctorId",
+    "contentHTML",
+    "contentMarkdown",
+    "action",
+    "selectedPrice",
+    "selectedPayment",
+    "addressClinic",
+    "selectedProvince",
+    "nameClinic",
+    "note",
+    "specialtyId",
+  ];
 
   let isValid = true;
-  let element = '';
+  let element = "";
   for (let i = 0; i < arrFields.length; i++) {
-      if (!inputData[arrFields[i]]) {
-        isValid = false;
-        element = arrFields[i]
-        break;
-      }
+    if (!inputData[arrFields[i]]) {
+      isValid = false;
+      element = arrFields[i];
+      break;
+    }
   }
 
   return {
-      isValid: isValid,
-      element: element
-  }
-}
+    isValid: isValid,
+    element: element,
+  };
+};
 
 let saveDetailInforDoctor = (inputData) => {
   return new Promise(async (resolve, reject) => {
     try {
       let checkObj = checkRequiredFields(inputData);
-      
+
       if (checkObj.isValid === false) {
         resolve({
           errCode: 1,
-          errMessage: `Missing parameter ${checkObj.element}`
+          errMessage: `Missing parameter ${checkObj.element}`,
         });
       } else {
         if (inputData.action === "CREATE") {
@@ -121,12 +131,12 @@ let saveDetailInforDoctor = (inputData) => {
             doctorId: inputData.doctorId,
           },
           raw: false,
-        })
+        });
 
         if (doctorInfor) {
           doctorInfor.doctorId = inputData.doctorId;
           doctorInfor.priceId = inputData.selectedPrice;
-          doctorInfor.provinceId = inputData.selectProvince;
+          doctorInfor.provinceId = inputData.selectedProvince;
           doctorInfor.paymentId = inputData.selectedPayment;
           doctorInfor.addressClinic = inputData.addressClinic;
           doctorInfor.nameClinic = inputData.nameClinic;
@@ -138,7 +148,7 @@ let saveDetailInforDoctor = (inputData) => {
           await db.Doctor_Infor.create({
             doctorId: inputData.doctorId,
             priceId: inputData.selectedPrice,
-            provinceId: inputData.selectProvince,
+            provinceId: inputData.selectedProvince,
             paymentId: inputData.selectedPayment,
             addressClinic: inputData.addressClinic,
             nameClinic: inputData.nameClinic,
