@@ -208,15 +208,15 @@ class ManageDoctor extends Component {
         selectProvince: selectProvince,
       });
     } else {
-      this.setState({
-        contentHTML: "",
-        contentMarkdown: "",
-        description: "",
-        hasOldData: false,
-        addressClinic: "",
-        nameClinic: "",
-        note: "",
-      });
+        this.setState({
+          contentHTML: "",
+          contentMarkdown: "",
+          description: "",
+          hasOldData: false,
+          addressClinic: "",
+          nameClinic: "",
+          note: "",
+        });
     }
     console.log(`Option selected:`, selectedDoctor.value);
   };
@@ -346,7 +346,7 @@ class ManageDoctor extends Component {
             />
           </div>
         </div>
-        <div className="manage-doctor-edittor">
+        <div className="manage-doctor-editor">
           <MdEditor
             style={{ height: "500px" }}
             renderHTML={(text) => mdParser.render(text)}

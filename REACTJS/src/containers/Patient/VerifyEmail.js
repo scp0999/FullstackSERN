@@ -25,7 +25,7 @@ class VerifyEmail extends Component {
         doctorId: doctorId,
       });
 
-      if (res && res.errcode === 0) {
+      if (res && res.errCode === 0) {
         this.setState({
           statusVerify: true,
           errCode: res.errCode,
@@ -39,7 +39,7 @@ class VerifyEmail extends Component {
     }
   }
   async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.languague !== prevProps.languague) {
+    if (this.props.language !== prevProps.language) {
     }
   }
   render() {
