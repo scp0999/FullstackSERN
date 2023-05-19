@@ -102,6 +102,11 @@ const getAllDetailClinicById = (data) => {
   );
 };
 
+const getAllPatientForDoctor = (data) => {
+  return axios.get(
+    `/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`
+  );
+};
 
 export {
   handleLoginApi, getAllUsers,
@@ -114,5 +119,5 @@ export {
   postVerifyBookAppointment, createNewSpecialty,
   getAllSpecialty, getAllDetailSpecialtyById,
   createNewClinic, getAllClinic,
-  getAllDetailClinicById
+  getAllDetailClinicById, getAllPatientForDoctor
 };
