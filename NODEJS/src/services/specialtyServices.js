@@ -83,8 +83,10 @@ let getDetailSpecialtyById = (inputId, location) => {
               attributes: ["doctorId", "provinceId"],
             });
           }
+
           data.doctorSpecialty = doctorSpecialty;
         } else data = {};
+        
         resolve({
           errMessage: "ok",
           errCode: 0,

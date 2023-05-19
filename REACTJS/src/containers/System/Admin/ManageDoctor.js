@@ -212,11 +212,12 @@ class ManageDoctor extends Component {
         paymentId = "",
         priceId = "",
         provinceId = "",
+        specialtyId = "",
         selectedPayment = "",
         selectedPrice = "",
         selectedProvince = "",
-        selectedSpecialty = "",
-        specialtyId = "";
+        selectedSpecialty = ""
+        ;
 
       if (res.data.Doctor_Infor) {
         addressClinic = res.data.Doctor_Infor.addressClinic;
@@ -231,9 +232,9 @@ class ManageDoctor extends Component {
         selectedProvince = listProvince.find(
           (item) => item.value === provinceId
         );
-        selectedSpecialty = listProvince.find(
-          (item) => item.value === specialtyId
-        );
+        selectedSpecialty = listSpecialty.find(item => {
+          return item && item.value === specialtyId;
+        });
       }
       this.setState({
         contentHTML: markdown.contentHTML,

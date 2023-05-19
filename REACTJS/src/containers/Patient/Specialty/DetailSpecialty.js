@@ -32,8 +32,13 @@ class DetailSpecialty extends Component {
       this.props.match.params.id
     ) {
       let id = this.props.match.params.id;
-      let res = await getAllDetailSpecialtyById({ id: id, location: "ALL" });
+      let res = await getAllDetailSpecialtyById({ 
+        id: id, 
+        location: "ALL" 
+      });
+
       let resProvince = await getAllCodeService("PROVINCE");
+      
       if (
         res &&
         res.errCode === 0 &&
@@ -50,9 +55,10 @@ class DetailSpecialty extends Component {
             });
           }
         }
+
         this.setState({
           dataDetailSpecialty: res.data,
-          arrDoctorId: res.data.doctors,
+          arrDoctorId: arrDoctorId,
           listProvince: resProvince.data,
         });
       }
@@ -64,26 +70,32 @@ class DetailSpecialty extends Component {
     }
   }
 
+  
+  handleOnChangeSelect = (event) => {
+    console.log('Check Onchange: ', event.target.value);
+  }
+
   render() {
     let { arrDoctorId, listProvince, dataDetailSpecialty } = this.state;
+    // console.log('check state: ', this.state )
     let { language } = this.props;
     return (
       <div className="detail-specialty-container">
         <HomeHeader />
         <div className="detail-specialty-body">
-          <div className="description-specialy">
-            {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty) && (
-              <>
+          <div className="description-specialty">
+            {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty) && 
                 <div
                   dangerouslySetInnerHTML={{
                     __html: dataDetailSpecialty.descriptionHTML,
-                  }}
-                ></div>
+                  }}>
+                </div>
+            }
+          </div>
                 <div className="search-sp-doctor">
                   <select
-                    onChange={(event) => this.handleOnChangeSELECT(event)}
-                  >
-                    {listProvince &&
+                    onChange={(event) => this.handleOnChangeSelect(event)}>
+                    { listProvince &&
                       listProvince.length > 0 &&
                       listProvince.map((item, index) => {
                         return (
@@ -96,8 +108,6 @@ class DetailSpecialty extends Component {
                       })}
                   </select>
                 </div>
-              </>
-            )}
           </div>
           {arrDoctorId &&
             arrDoctorId.length > 0 &&
@@ -106,7 +116,11 @@ class DetailSpecialty extends Component {
                 <div className="each-doctor" key={index}>
                   <div className="dt-content-left">
                     <div className="profile-doctor">
-                      <ProfileDoctor isShowDescriptionDoctor={true} />
+                      <ProfileDoctor 
+                        doctorId ={item}
+                        isShowDescriptionDoctor={true} 
+                        //dataTime ={dataTime}
+                        />
                     </div>
                   </div>
                   <div className="dt-content-right">
@@ -121,7 +135,6 @@ class DetailSpecialty extends Component {
               );
             })}
         </div>
-      </div>
     );
   }
 }
