@@ -9,6 +9,8 @@ import { ToastContainer } from "react-toastify";
 import HomePage from "./HomePage/HomePage.js";
 import DetailDoctor from "./Patient/Doctor/DetailDoctor.js";
 import Doctor from "../routes/Doctor";
+import DetailClinic from "./Patient/Clinic/DetailClinic";
+
 import VerifyEmail from "./Patient/VerifyEmail.js";
 import {
   userIsAuthenticated,
@@ -69,10 +71,13 @@ class App extends Component {
                   <Route path={path.HOMEPAGE} component={HomePage} />
                   <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
                   <Route path={path.DETAIL_SPECIALTY} component={DetailSpecialty} />
+                  <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
+
                   <Route
                     path={path.VERIFY_EMAIL_BOOKING}
                     component={VerifyEmail}
                   />
+
                 </Switch>
               </CustomScrollbars>
             </span>
