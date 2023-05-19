@@ -5,6 +5,8 @@ import { Buffer } from "buffer";
 require("dotenv").config();
 import _, { intersection } from "lodash";
 import schedule from "../models/schedule";
+import emailService from "./emailService";
+import { resolve } from "path";
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 
@@ -452,50 +454,94 @@ let getProfileDoctorById = (inputId) => {
 let getListPatientForDoctor = (doctorId, date) => {
   return new Promise(async (resolve, reject) => {
     try {
-        if (!doctorId || !date) {
-          resolve({
-            errCode: 1,
-            errMessage: "Missing required parameters",
-          });
-        } else {
-            let data = await db.Booking.findAll({
-              where: {
-                statusId: 'S2',
-                doctorId:doctorId,
-                date: date
-              },
+      if (!doctorId || !date) {
+        resolve({
+          errCode: 1,
+          errMessage: "Missing required parameters",
+        });
+      } else {
+        let data = await db.Booking.findAll({
+          where: {
+            statusId: "S2",
+            doctorId: doctorId,
+            date: date,
+          },
+          include: [
+            {
+              model: db.User,
+              as: "patientData",
+              attributes: ["email", "firstName", "address", "gender"],
               include: [
                 {
-                  model: db.User, as: 'patientData',
-                  attributes: ["email", "firstName", "address", "gender"],
-                  include: [
-                    {
-                      model: db.Allcode, as: "genderData",
-                      attributes: ["valueEn", "valueVi"],
-                    },
-                  ]
+                  model: db.Allcode,
+                  as: "genderData",
+                  attributes: ["valueEn", "valueVi"],
                 },
-                {
-                      model: db.Allcode, as: "timeTypeDataPatient",
-                      attributes: ["valueEn", "valueVi"],
-                }
               ],
-              raw: false,
-              nest: true,
-          })
+            },
+            {
+              model: db.Allcode,
+              as: "timeTypeDataPatient",
+              attributes: ["valueEn", "valueVi"],
+            },
+          ],
+          raw: false,
+          nest: true,
+        });
 
-            resolve({
-              errCode: 0,
-              data: data,
-            });
-
-        }
+        resolve({
+          errCode: 0,
+          data: data,
+        });
+      }
     } catch (e) {
-        reject(e);
+      reject(e);
     }
-  })
-}
+  });
+};
 
+let sendRemedy = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (
+        !data.email ||
+        !data.doctorId ||
+        !data.patientId ||
+        !data.timeType ||
+        !data.imgBase64
+      ) {
+        resolve({
+          errCode: 1,
+          errMessage: "Missing required parameters",
+        });
+      } else {
+        let appointment = await db.Booking.findOne({
+          where: {
+            doctorId: data.doctorId,
+            patientId: data.patientId,
+            timeType: data.timeType,
+            statusId: "S2",
+          },
+          raw: false,
+        });
+
+        if (appointment) {
+          appointment.statusId = "S3";
+          await appointment.save();
+        }
+
+        await emailService.sendAttachment(data);
+
+        resolve({
+          errCode: 0,
+          errMessage: "ok",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 module.exports = {
   getTopDoctorHome: getTopDoctorHome,
@@ -507,4 +553,5 @@ module.exports = {
   getExtraInforDoctorById: getExtraInforDoctorById,
   getProfileDoctorById: getProfileDoctorById,
   getListPatientForDoctor: getListPatientForDoctor,
+  sendRemedy: sendRemedy,
 };

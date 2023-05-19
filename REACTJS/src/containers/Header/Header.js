@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
@@ -7,15 +9,14 @@ import { adminMenu, doctorMenu } from "./menuApp";
 import "./Header.scss";
 import { LANGUAGES, USER_ROLE } from "../../utils";
 import { FormattedMessage } from "react-intl";
-import _ from 'lodash';
-
+import _ from "lodash";
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuApp: []
-    }
+      menuApp: [],
+    };
   }
 
   handleChangeLanguage = (language) => {
@@ -25,22 +26,20 @@ class Header extends Component {
   componentDidMount() {
     let { userInfo } = this.props;
     let menu = [];
-    if (userInfo && !_.isEmpty(userInfo) ) {
+    if (userInfo && !_.isEmpty(userInfo)) {
       let role = userInfo.roleId;
-      if (role === USER_ROLE.ADMIN){
+      if (role === USER_ROLE.ADMIN) {
         menu = adminMenu;
       }
 
-      if (role === USER_ROLE.DOCTOR){
+      if (role === USER_ROLE.DOCTOR) {
         menu = doctorMenu;
       }
     }
 
     this.setState({
-      menuApp: menu
-    })
-
-    console.log("check user infor", this.props.userInfo);
+      menuApp: menu,
+    });
   }
 
   render() {
